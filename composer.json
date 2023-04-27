@@ -8,6 +8,9 @@
   "scripts": {
     "version-bump": [
       "task version-bump"
+    ],
+    "pre-commit": [
+      "task pre-commit"
     ]
   }
 }
