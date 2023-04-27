@@ -1,8 +1,13 @@
 {
-    "name": "stovak/basic-php",
-    "description": "Basic repo for php functionality",
-    "type": "project",
-    "license": "MIT",
-    "minimum-stability": "dev",
-    "require": {}
+  "name": "stovak/basic-php",
+  "description": "Basic repo for php functionality",
+  "type": "project",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "require": {},
+  "scripts": {
+    "version-bump": [
+      "task version-bump"
+    ]
+  }
 }
