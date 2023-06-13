@@ -17,10 +17,12 @@ jobs:
         id: terminus-cache
         with:
           path: ~/.terminus
-          key: ${{ runner.os }}-terminus-${{ hashFiles('**/go.sum') }}
+          key: ${{ runner.os }}-terminus-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-terminus-
       - name: Authenticate Terminus
+        with:
+          TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
         run: |
           terminus auth:login || terminus auth:login --machine-token="${{ inputs.TERMINUS_TOKEN }}"
       - name: Update Session Expiry Date
