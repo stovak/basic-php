@@ -1,0 +1,27 @@
+name: Connect
+run-name: Connect
+on:
+  push:
+    branches:
+      - *
+jobs:
+    connect:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+        - name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: '7.4'
+        - uses: actions/cache@v2
+          id: terminus-cache
+          with:
+            path: ~/.terminus
+            key: ${{ runner.os }}-terminus-${{ hashFiles('**/go.sum') }}
+            restore-keys: |
+              ${{ runner.os }}-terminus-
+        - name: Authenticate Terminus
+          run: |
+            terminus auth:login || terminus auth:login --machine-token="${{ inputs.TERMINUS_TOKEN }}"
+        - name: Update Session Expiry Date
+          run: terminus auth:whoami
