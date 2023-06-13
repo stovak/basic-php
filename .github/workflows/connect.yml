@@ -21,7 +21,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-terminus-
       - name: Authenticate Terminus
-        with:
+        env:
           TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
         run: |
           terminus auth:login || terminus auth:login --machine-token="${{ inputs.TERMINUS_TOKEN }}"
