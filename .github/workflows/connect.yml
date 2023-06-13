@@ -45,6 +45,6 @@ jobs:
         env:
           TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
         run: |
-          terminus auth:login || terminus auth:login --machine-token="${{ inputs.TERMINUS_TOKEN }}"
+          terminus auth:login || terminus auth:login --machine-token="${TERMINUS_TOKEN}"
       - name: Update Session Expiry Date
         run: terminus auth:whoami
