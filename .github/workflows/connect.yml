@@ -2,8 +2,8 @@ name: Connect
 run-name: Connect
 on:
   push:
-  branches:
-    - *
+    branches:
+      - main
 jobs:
   connect:
     runs-on: ubuntu-latest
