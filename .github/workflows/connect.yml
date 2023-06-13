@@ -20,6 +20,27 @@ jobs:
           key: ${{ runner.os }}-terminus-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-terminus-
+      - name: Determine version
+        shell: bash
+        if: ${{ ! inputs.terminus-version }}
+        run: |
+          TERMINUS_RELEASE=$(
+            curl --silent \
+              --header 'authorization: Bearer ${{ github.token }}' \
+              "https://api.github.com/repos/pantheon-systems/terminus/releases/latest" \
+              | perl -nle'print $& while m#"tag_name": "\K[^"]*#g'
+          )
+          echo "TERMINUS_RELEASE=$TERMINUS_RELEASE" >> $GITHUB_ENV
+      - name: Install Terminus
+        shell: bash
+        run: |
+          mkdir ~/terminus && cd ~/terminus
+          echo "Installing Terminus v$TERMINUS_RELEASE"
+          curl -L https://github.com/pantheon-systems/terminus/releases/download/$TERMINUS_RELEASE/terminus.phar --output terminus
+          chmod +x terminus
+          sudo ln -s ~/terminus/terminus /usr/local/bin/terminus
+        env:
+          TERMINUS_RELEASE: ${{ inputs.terminus-version || env.TERMINUS_RELEASE }}
       - name: Authenticate Terminus
         env:
           TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
